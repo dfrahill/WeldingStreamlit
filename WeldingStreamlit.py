@@ -42,11 +42,11 @@ def process_weld_data(data):
     )
     
     
-#    MitigatedWait = 5
-#    MitigatedSetup = 35
-#    MitigatedDuration = 60
-#    MitigatedHours = 9
-#    BaseHours = 8
+    MitigatedWait = 5
+    MitigatedSetup = 35
+    MitigatedDuration = 60
+    MitigatedHours = 9
+    BaseHours = 8
     MitigatedCycleTime = MitigatedWait + MitigatedSetup + MitigatedDuration
     
     data['Mitigated Forecast'] = data['Plan Available to Start'] + pd.to_timedelta(
