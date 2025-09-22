@@ -383,7 +383,7 @@ def show_dashboard(data):
         
     # Quality Metrics
     st.subheader("Quality & Performance Indicators")
-        col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.metric(
