@@ -383,21 +383,27 @@ def show_dashboard(data):
         
     # Quality Metrics
     st.subheader("Quality & Performance Indicators")
-    col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
     
     with col1:
+        st.metric(
+            label="Work-in-Progress",
+            value=f"{1:.1f} Weld"
+        )
+    
+    with col2:
         st.metric(
             label="Rework Rate",
             value=f"{metrics['rework_rate']:.1f}%"
         )
     
-    with col2:
+    with col3:
         st.metric(
             label="Excessive Wait Rate",
             value=f"{metrics['excessive_wait_rate']:.1f}%"
         )
     
-    with col3:
+    with col4:
         st.metric(
             label="Anomaly Rate",
             value=f"{metrics['anomaly_rate']:.1f}%"
