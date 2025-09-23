@@ -1,3 +1,4 @@
+from matplotlib.ticker import scale_range
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -73,7 +74,8 @@ def create_completion_chart(data):
         mode='lines+markers',
         name='Welds Completed',
         line=dict(color='#1f77b4', width=3),
-        marker=dict(size=6)
+        marker=dict(size=actual_data['Actual Cycle Time (min)'].fillna(0),color="#1f77b4",sizemode="area",sizeref=5),
+        hovertemplate="Cycle Time (min): %{marker.size:.0f}<extra></extra>"
     ))
     
     # Original Plan
@@ -269,7 +271,7 @@ def apply_advanced_filters(data):
                 (data['Plan Available to Start'].dt.date >= start_date) &
                 (data['Plan Available to Start'].dt.date <= end_date)
             ]
-    
+
     # Critical Path filter
     st.sidebar.subheader("Critical Path")
     critical_path_options = ['All'] + sorted(data['Critical Path'].unique().tolist())
@@ -476,8 +478,49 @@ def show_data_analysis(data):
         elif completion_filter == 'Planned Only':
             filtered_data = filtered_data[filtered_data['Actual Available to Start'].isna()]
     
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        # Weld number range filter
+        min_cycle = int(filtered_data['Actual Cycle Time (min)'].min()-1) if not filtered_data.empty else 1
+        max_cycle = int(filtered_data['Actual Cycle Time (min)'].max()+1) if not filtered_data.empty else 1000
+        cycle_time_range = st.slider(
+            "Actual Cycle Time Range (min)",
+            min_value=min_cycle,
+            max_value=max_cycle,
+            value=(min_cycle, max_cycle),
+            key="analysis_cycle_time_range"
+        )
+        
+        filtered_data = filtered_data[
+            (filtered_data['Actual Cycle Time (min)'] >= cycle_time_range[0]) & 
+            (filtered_data['Actual Cycle Time (min)'] <= cycle_time_range[1])
+        ]
+        
+    with col2:
+        # Rework status filter
+        rework_options = ['All', 'Rework Only', 'No Rework']
+        rework_filter = st.selectbox("Rework Status", rework_options)
+        if rework_filter == 'Rework Only':
+            filtered_data = filtered_data[filtered_data['Rework Flagged'] == 1]
+        elif rework_filter == 'No Rework':
+            filtered_data = filtered_data[filtered_data['Rework Flagged'] == 0]
+
+    with col3:
+        # Anomaly status filter
+        anomaly_options = ['All', 'Anomalies Only', 'No Anomalies']
+        anomaly_filter = st.selectbox("Anomaly Status", anomaly_options)
+        if anomaly_filter == 'Anomalies Only':
+            filtered_data = filtered_data[filtered_data['Anomaly Flagged'] == 1]
+        elif anomaly_filter == 'No Anomalies':
+            filtered_data = filtered_data[filtered_data['Anomaly Flagged'] == 0]
+            
+
     st.write(f"📊 Showing {len(filtered_data)} of {len(original_data)} total rows")
     
+
+
+
     # Raw data table
     st.subheader("Raw Data Table")
     
