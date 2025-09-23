@@ -1,4 +1,4 @@
-from matplotlib.ticker import scale_range
+#from matplotlib.ticker import scale_range
 import streamlit as st
 import pandas as pd
 import numpy as np
