@@ -1,4 +1,4 @@
-from matplotlib.ticker import scale_range
+#from matplotlib.ticker import scale_range
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -312,15 +312,24 @@ def apply_advanced_filters(data):
         value=9,
         step=1
     )
+    MitigatedRework = st.sidebar.slider(
+        'Mitigated Rework Rate (%)',
+        min_value=0,
+        max_value=25,
+        value=10,
+        step=1
+    )
+
 
 
     PlanCycleTime = 120
     CurrentDelay = 13
+    BaseRework = 10
     BaseHours = 8
     MitigatedCycleTime = MitigatedWait + MitigatedSetup + MitigatedDuration
     
     data['Mitigated Forecast'] = data['Plan Available to Start'] + pd.to_timedelta(
-        np.floor(CurrentDelay + (MitigatedCycleTime / PlanCycleTime - 1 + (BaseHours / MitigatedHours - 1)/2 ) * (data['Weld Number'] - 50)), 
+        np.floor(CurrentDelay + (MitigatedCycleTime / PlanCycleTime - 1 + (BaseHours / MitigatedHours - 1)/2 + ((100 - BaseRework) / (100 - MitigatedRework)) - 1) * (data['Weld Number'] - 50)), 
         unit='D'
     )
     
