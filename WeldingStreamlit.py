@@ -106,8 +106,8 @@ def create_completion_chart(data):
         y=data['WeldNumber'],
         mode='lines',
         name='Original Plan',
-        line=dict(color='rgba(0, 0, 0, 0.3)', width=2),
-        hoverinfo='skip'
+        line=dict(color='rgba(0, 0, 0, 0.3)', width=2)
+#        hoverinfo='y'
     ))
     
     # Forecast
@@ -136,9 +136,18 @@ def create_completion_chart(data):
         title='Welding Progress: Actual vs Planned vs Forecast',
         xaxis_title='Date',
         yaxis_title='Weld Number',
-        height=600,
+        font=dict(size=18),
+        title_font=dict(size=24, color="#003366", family="Arial"),        height=600,
         hovermode='x unified'
     )
+
+    fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray", 
+                     tickfont=dict(size=20))
+    fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
+                     tickfont=dict(size=20), titlefont=dict(size=20))
+
+    fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
+
     
     return fig
 
@@ -286,7 +295,7 @@ def create_classification_graph(GraphData):
         plot_bgcolor="white",
         paper_bgcolor="white",
         font=dict(size=18),
-        title_font=dict(size=28, color="black", family="Arial"),
+        title_font=dict(size=24, color="#003366", family="Arial"),
         hovermode="x unified",
         height=500
     )
@@ -296,6 +305,8 @@ def create_classification_graph(GraphData):
                      tickfont=dict(size=20))
     fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
                      tickfont=dict(size=20), titlefont=dict(size=20))
+    fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
+
 
     return fig
 
@@ -439,15 +450,18 @@ def create_quality_prediction_graph(data):
         xaxis_title="",
         plot_bgcolor="white",
         paper_bgcolor="white",
-        font=dict(size=14),
-        title_font=dict(size=20, color="#003366", family="Arial", weight="bold"),
+        font=dict(size=18),
+        title_font=dict(size=24, color="#003366", family="Arial"),
         hovermode="x unified",
         height=500
     )
 
     # Add gridlines
-    fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray")
-    fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray")
+    fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
+    tickfont=dict(size=20), titlefont=dict(size=20))
+    fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
+    tickfont=dict(size=20), titlefont=dict(size=20))
+    fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
 
     return fig, GraphData
 
