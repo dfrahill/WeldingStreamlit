@@ -137,14 +137,15 @@ def create_completion_chart(data):
         xaxis_title='Date',
         yaxis_title='Weld Number',
         font=dict(size=18),
-        title_font=dict(size=24, color="#003366", family="Arial"),        height=600,
+        title_font=dict(size=24, color="#003366", family="Arial"),        
+        height=600,
         hovermode='x unified'
     )
 
     fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray", 
                      tickfont=dict(size=20))
     fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
-                     tickfont=dict(size=20), titlefont=dict(size=20))
+                     tickfont=dict(size=20))
 
     fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
 
