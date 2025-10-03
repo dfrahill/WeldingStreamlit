@@ -9,7 +9,7 @@ import io
 
 # Page configuration
 st.set_page_config(
-    page_title="Welding Performance Dashboard",
+    page_title="Welding Performance Dashboard Test",
     page_icon="🔧",
     layout="wide"
 )
