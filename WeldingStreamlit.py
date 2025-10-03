@@ -135,7 +135,9 @@ def create_completion_chart(data):
     fig.update_layout(
         title='Welding Progress: Actual vs Planned vs Forecast',
         xaxis_title='Date',
+        xaxis_title_font=dict(size=18),
         yaxis_title='Weld Number',
+        yaxis_title_font=dict(size=18),
         font=dict(size=18),
         title_font=dict(size=24, color="#003366", family="Arial"),        
         height=600,
@@ -293,6 +295,8 @@ def create_classification_graph(GraphData):
         title="Weld Classification",
         yaxis_title="Welds",
         xaxis_title="",
+        xaxis_title_font=dict(size=18),
+        yaxis_title_font=dict(size=18),
         plot_bgcolor="white",
         paper_bgcolor="white",
         font=dict(size=18),
@@ -305,7 +309,7 @@ def create_classification_graph(GraphData):
     fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray", 
                      tickfont=dict(size=20))
     fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
-                     tickfont=dict(size=20), titlefont=dict(size=20))
+                     tickfont=dict(size=20))
     fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
 
 
@@ -449,6 +453,7 @@ def create_quality_prediction_graph(data):
         title = "Quality Prediction",
         yaxis_title="Welds",
         xaxis_title="",
+        yaxis_title_font=dict(size=18),
         plot_bgcolor="white",
         paper_bgcolor="white",
         font=dict(size=18),
@@ -459,9 +464,9 @@ def create_quality_prediction_graph(data):
 
     # Add gridlines
     fig.update_xaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
-    tickfont=dict(size=20), titlefont=dict(size=20))
+    tickfont=dict(size=20))
     fig.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",
-    tickfont=dict(size=20), titlefont=dict(size=20))
+    tickfont=dict(size=20))
     fig.update_layout(legend=dict(font=dict(size=18),itemsizing="constant"))
 
     return fig, GraphData
