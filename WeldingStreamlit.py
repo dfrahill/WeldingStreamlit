@@ -1106,12 +1106,13 @@ def show_dashboard(data):
         try:
             # Try using column_config for better column width control
             st.data_editor(
-                all_alerts[['Weld Number','Alert','Context','Recommendation']], 
+                all_alerts[['Weld Number','Start Time','Alert','Context','Recommendation']], 
                 use_container_width=True, 
                 height=250,
                 disabled=True,
                 column_config={
                     "Weld Number": st.column_config.NumberColumn("Weld Number", width="small"),
+                    "Start Time": st.column_config.NumberColumn("Start Time", width="small"),
                     "Alert": st.column_config.TextColumn("Alert", width="small"),
                     "Context": st.column_config.TextColumn("Context", width="small"),
                     "Recommendation": st.column_config.TextColumn("Recommendation", width="large")
@@ -1120,7 +1121,7 @@ def show_dashboard(data):
         except:
             # Fallback to regular dataframe if column_config not supported
             st.dataframe(
-                all_alerts[['Weld Number','Alert','Context','Recommendation']], 
+                all_alerts[['Weld Number','Start Time','Alert','Context','Recommendation']], 
                 use_container_width=True, 
                 height=250
             )
