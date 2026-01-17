@@ -982,7 +982,7 @@ def show_dashboard(data):
         all_alerts = pd.DataFrame(columns=['Weld Number', 'Start Time', 'Alert'])
 
 
-    st.subheader("Alert Summary")
+    # st.subheader("Alert Summary")
     if not all_alerts.empty:
         all_alerts.sort_values('Start Time', inplace=True)
         all_alerts['Weld Number'] = all_alerts['Weld Number'].ffill() # This is a plug. Really it should be calculated better but is good enough for demo.
@@ -1102,6 +1102,79 @@ def show_dashboard(data):
             all_alerts.loc[mask_gt_1_ge_1hr, 'Context'] = 'Multiple unrelated potential quality issues detected'
             all_alerts.loc[mask_gt_1_ge_1hr, 'Recommendation'] = 'Immediate Action: Monitor quality detection and inspection reports to confirm resolution'
 
+        # Create timeline graph of alerts
+        # st.subheader("Alert Timeline")
+        
+        # Define color mapping for different alert types
+        alert_colors = {
+            'Start Hour': '#FF6B6B',
+            'Max Wait Time': '#4ECDC4',
+            'Mid-Day Progress': '#45B7D1',
+            'Anomaly': '#FFA07A'
+        }
+        
+        # Create timeline figure
+        fig_timeline = go.Figure()
+        
+        # Add a trace for each alert type
+        # for alert_type in all_alerts['Alert'].unique():
+        alert_data = all_alerts#[all_alerts['Alert'] == alert_type]
+        alert_data['Timeline'] = 'Timeline'
+        if not alert_data.empty:
+            # Create custom hover text with all required information
+            hover_text = []
+            for idx, row in alert_data.iterrows():
+                hover_text.append(
+                    f"<b>Start Time:</b> {row['Start Time']}<br>" +
+                    f"<b>Alert:</b> {row['Alert']}<br>" +
+                    f"<b>Context:</b> {row['Context']}<br>" +
+                    f"<b>Recommendation:</b> {row['Recommendation']}"
+                )
+            
+            fig_timeline.add_trace(go.Scatter(
+                x=alert_data['Start Time'],
+                y=alert_data['Timeline'],#[alert_type] * len(alert_data),
+                mode='markers',
+                name='Alert',
+                marker=dict(
+                    size=16,
+                    color=alert_data['Alert'].map(alert_colors),#alert_colors.get(alert_type, '#95A5A6'),
+                    line=dict(width=1, color='white')
+                ),
+                hovertemplate='%{text}<extra></extra>',
+                text=hover_text,
+                showlegend=False
+            ))
+        
+        # Update layout
+        fig_timeline.update_layout(
+            title='Alert Timeline',
+            #xaxis_title='Time',
+            #yaxis_title='Alert Type',
+            height=300,
+            hovermode='closest',
+            xaxis=dict(showgrid=True, gridcolor='lightgray'),
+            yaxis=dict(showgrid=False),
+            plot_bgcolor='white',
+            #xaxis_title_font=dict(size=18),
+            yaxis_title_font=dict(size=18),
+            font=dict(size=18),
+            title_font=dict(size=28, color="#003366", family="Arial"),
+            hoverlabel=dict(
+                font=dict(size=14)),
+            paper_bgcolor='white'
+        )
+        
+        fig_timeline.update_xaxes(showgrid=True, gridcolor="lightgray", showline=True, linecolor="lightgray",tickfont=dict(size=18))
+        fig_timeline.update_yaxes(showgrid=False, gridcolor="lightgray", showline=True, linecolor="lightgray",tickfont=dict(size=18))
+        
+        st.plotly_chart(fig_timeline, use_container_width=True)
+
+        if len(all_alerts) == 1:
+            st.info("There is " + str(len(all_alerts)) + " alert in the selected timeframe")
+        else:
+            st.info("There are " + str(len(all_alerts)) + " alerts in the selected timeframe")
+        st.markdown("**Alert Details Table**")
         # Display dataframe with autosized columns
         try:
             # Try using column_config for better column width control
