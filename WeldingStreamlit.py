@@ -1,4 +1,4 @@
-#from matplotlib.ticker import scale_range (testing GIT Update)
+#from matplotlib.ticker import scale_range
 from pydoc import plainpager
 import streamlit as st
 import pandas as pd
